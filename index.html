@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mae Mercado | Interactive Portfolio</title>
+    <!-- Elegant Font Embeds -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #fef2f2 40%, #f5f3ff 100%);
+            --panel-bg: rgba(255, 255, 255, 0.75);
+            --panel-border: rgba(251, 207, 232, 0.5);
+            --text-primary: #3f3f46;
+            --text-secondary: #71717a;
+            --accent-glow: #db2777;
+            --accent-gradient: linear-gradient(90deg, #ec4899, #f43f5e);
+            --card-hover: rgba(255, 241, 242, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            padding: 5rem 1rem 3rem 1rem;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #be185d;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        /* Nav Interface */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--panel-border);
+            border-bottom: 1px solid var(--panel-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px -5px rgba(219, 39, 119, 0.05);
+        }
+
+        nav button {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.6rem 1.8rem;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav button:hover {
+            color: var(--accent-glow);
+            background: rgba(251, 207, 232, 0.25);
+        }
+
+        nav button.active {
+            color: #ffffff;
+            background: var(--accent-gradient);
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        /* Core Layout */
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .page.active-page {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Elegant Soft Glass Panels */
+        section {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 3rem;
+            margin-bottom: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 35px -10px rgba(244, 63, 94, 0.08);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.75rem;
+            color: #18181b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--panel-border), transparent);
+            margin-left: 0.75rem;
+        }
+
+        /* Profile Layout Adjustment for Photo */
+        .profile-container {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        /* List Styling */
+        ul {
+            list-style: none;
+        }
+
+        li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.85rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        li::before {
+            content: "✦";
+            color: #f43f5e;
+            font-size: 0.8rem;
+            position: absolute;
+            left: 0;
+            top: 1px;
+        }
+
+        /* Work Experience Cards */
+        .job {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px dashed rgba(251, 207, 232, 0.6);
+        }
+
+        .job:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .job-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #18181b;
+        }
+
+        .job-meta {
+            color: #db2777;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.3rem;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Portfolio Project Cards */
+        .project-card {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(251, 207, 232, 0.4);
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card:hover {
+            background: var(--card-hover);
+            transform: translateY(-3px);
+            border-color: rgba(236, 72, 153, 0.3);
+            box-shadow: 0 12px 25px rgba(236, 72, 153, 0.08);
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #18181b;
+        }
+
+        .project-tools {
+            font-size: 0.8rem;
+            color: #be185d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin: 0.3rem 0 0.85rem 0;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Contact Details Grid */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .contact-item h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #18181b;
+            margin-bottom: 0.85rem;
+        }
+
+        .contact-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .skills-category h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #18181b;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Gallery & Hobbies Specific Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(236, 72, 153, 0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .hobby-badge {
+            display: inline-block;
+            background: rgba(251, 207, 232, 0.3);
+            color: #be185d;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #a1a1aa;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--panel-border);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            section { padding: 1.75rem; }
+            .profile-container { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Mae Mercado</h1>
+        <div class="subtitle" id="header-subtitle">BSIT Graduate & Technical Engineer</div>
+    </header>
+
+    <nav>
+        <button id="btn-page1" class="active" onclick="switchPage(1)">Profile & Experience</button>
+        <button id="btn-page2" onclick="switchPage(2)">Projects & Certifications</button>
+        <button id="btn-page3" onclick="switchPage(3)">Hobbies & Gallery</button>
+    </nav>
+
+    <div class="container">
+        
+        <!-- ================= PAGE 1 ================= -->
+        <div id="page1" class="page active-page">
+            <section id="profile">
+                <h2>Profile Info</h2>
+                <div class="profile-container">
+                    <!-- Graduation Picture Input -->
+                    <img src="file:///C:/Users/Sameah/Documents/ewb%20website/pics/gradpic.jpg" alt="Mae Mercado Graduation Picture" class="profile-pic">
+                    
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">BSIT Graduate & Civil Service Professional building a foundational trajectory in enterprise tech infrastructure. Currently advancing technical capabilities as a Technical Engineer under the TechStart Development Program at EastWest Bank, balancing software collaboration with cross-functional deployments. Proven capacity for responsive design prototyping, clean documentation flows, and standard engineering cycles.</p>
+                </div>
+            </section>
+
+            <section id="education-eligibility">
+                <div class="grid">
+                    <div>
+                        <h2>Education</h2>
+                        <p style="color: #18181b; font-weight: 600; font-size: 0.95rem;">2021 - 2025</p>
+                        <p style="font-family: 'Playfair Display', serif; color: #18181b; font-size: 1.25rem; margin-top: 0.25rem;">Batangas State University</p>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; font-style: italic;">The National Engineering University</p>
+                        <p style="color: #db2777; font-size: 0.95rem; margin-top: 0.5rem; font-weight: 500;">BS in Information Technology - Major in Business Analytics</p>
+                    </div>
+                    <div>
+                        <h2>Eligibility</h2>
+                        <p style="color: #18181b; font-weight: 600; font-size: 0.95rem;">October 2025</p>
+                        <p style="font-family: 'Playfair Display', serif; color: #18181b; font-size: 1.25rem; margin-top: 0.25rem;">Career Service Professional</p>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">Civil Service Commission Eligibility</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills">
+                <h2>Skills & Proficiencies</h2>
+                <div class="grid">
+                    <div class="skills-category">
+                        <h3>Technical Core</h3>
+                        <ul>
+                            <li>JavaScript, Python, Java, SQL</li>
+                            <li>HTML5, CSS3</li>
+                            <li>Figma, Canva</li>
+                            <li>Advanced MS Excel</li>
+                            <li>Temenos T24</li>
+                            <li>Katalon Automation Testing</li>
+                        </ul>
+                    </div>
+                    <div class="skills-category">
+                        <h3>Soft Skills</h3>
+                        <ul>
+                            <li>Attention to Detail</li>
+                            <li>Analytical Problem-Solving</li>
+                            <li>Team Collaboration</li>
+                            <li>Time Management</li>
+                            <li>Adaptability</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="experience">
+                <h2>Work Experience</h2>
+                
+                <div class="job">
+                    <div class="job-title">Technical Engineer (TechStart Development Program)</div>
+                    <div class="job-meta">EastWest Bank | April 2026 - Present</div>
+                    <ul>
+                        <li>Participating in structured technical training and engineering rotations within the banking tech infrastructure.</li>
+                        <li>Collaborating with cross-functional development groups to support systemic updates and software deployments.</li>
+                    </ul>
+                </div>
+
+                <div class="job">
+                    <div class="job-title">Admin Assistant (Project-Based)</div>
+                    <div class="job-meta">Philip Morris Fortune Tobacco Corp., Inc. | Aug - Dec 2025</div>
+                    <ul>
+                        <li>Drafted and organized Job Safety Analysis (JSA) and Method Statements to ensure all project procedures aligned with strict corporate safety standards.</li>
+                        <li>Developed LOTO (Lockout-Tagout) maps and Safety Maps to visualize and communicate hazard controls within the facility.</li>
+                        <li>Coordinated the issuance of work permits for contractors and managed formal endorsements for personnel entry into the First Philippine Industrial Park (FPIP).</li>
+                        <li>Managed inventory for office supplies using Excel tracking tools to ensure zero downtime in administrative operations.</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE 2 ================= -->
+        <div id="page2" class="page">
+            <section id="projects">
+                <h2>IT Projects</h2>
+
+                <div class="project-card">
+                    <div class="project-title">BATSTATEU CONNECT+: COMMUNITY PLATFORM</div>
+                    <div class="project-tools">Roles: UI/UX Designer, Prototyper, & Co-Technical Documenter</div>
+                    <p>Designed the platform's visual interface and co-authored the project's technical blueprints and manuals.</p>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">CALLE COFFEE | Responsive Website</div>
+                    <div class="project-tools">Tools: HTML5, CSS3, JavaScript</div>
+                    <p>Developed a responsive web storefront featuring an interactive client-side product display and navigation flow.</p>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">TRAVIS MOTO GARAGE: BUSINESS WEBSITE</div>
+                    <div class="project-tools">Tools: HTML5, CSS3</div>
+                    <p>Created a structured business website to showcase service listings and shop location information.</p>
+                </div>
+            </section>
+
+            <section id="certifications">
+                <h2>Certifications</h2>
+                <ul>
+                    <li><strong>HTML Essentials</strong> | Cisco Networking Academy | June 2025</li>
+                    <li><strong>Design a Mobile App Interface with Moqups</strong> | Coursera | Dec 2024</li>
+                    <li><strong>Introduction to Microsoft Excel</strong> | Coursera | Dec 2024</li>
+                    <li><strong>Business Analysis & Process Management</strong> | Coursera | Dec 2024</li>
+                    <li><strong>Cyber Threat Management</strong> | Cisco Networking Academy | Nov 2024</li>
+                    <li><strong>Endpoint Security</strong> | Cisco Networking Academy | Nov 2024</li>
+                    <li><strong>Responsible Conduct of Research</strong> | Batangas State University | Nov 2024</li>
+                    <li><strong>Databiz Conference 2024</strong> | Batangas IT Society | Nov 2024</li>
+                </ul>
+            </section>
+
+            <section id="contact">
+                <h2>Contact & References</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>Get In Touch</h3>
+                        <p>
+                            📍 Mandaluyong City, Metro Manila<br>
+                            📞 0991-888-999<br>
+                            ✉️ mercadomae002@gmail.com
+                        </p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Character Reference</h3>
+                        <p>
+                            <strong>Ms. Adelfa Asi</strong><br>
+                            Maintenance Planner<br>
+                            SFI/PMFTC Inc.<br>
+                            📞 0927-652-888
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE 3 ================= -->
+        <div id="page3" class="page">
+            <section id="hobbies">
+                <h2>Interests & Hobbies</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    When I am not deep into technical environments or enterprise architecture, I love keeping an active, balanced lifestyle. Here's what keeps me energized:
+                </p>
+                
+                <!-- Badges Section -->
+                <div style="margin-bottom: 2rem;">
+                    <span class="hobby-badge">🏸 Badminton Player</span>
+                    <span class="hobby-badge">🏅 Tournament Umpire</span>
+                    <span class="hobby-badge">📺 K-Drama Enthusiast</span>
+                    <span class="hobby-badge">🧟 Post-Apocalyptic Horror Fan</span>
+                    <span class="hobby-badge">☕ Coffee Lover</span>
+                    <span class="hobby-badge">🌿 Nature Admirer</span>
+                    <span class="hobby-badge">🌙 Night Walks</span>
+                </div>
+
+                <!-- Clean 3x2 Layout CSS -->
+                <style>
+                    .hobbies-grid {
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr); /* Force exactly 3 columns */
+                        gap: 1.25rem;
+                        margin-top: 1.5rem;
+                    }
+                    .hobby-card {
+                        position: relative;
+                        border-radius: 12px;
+                        overflow: hidden;
+                        border: 1px solid var(--panel-border);
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+                        aspect-ratio: 1 / 1;
+                    }
+                    .hobby-card img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        display: block;
+                        transition: transform 0.3s ease;
+                    }
+                    .hobby-card:hover img {
+                        transform: scale(1.08);
+                    }
+                    .hobby-card .label {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background: rgba(255, 255, 255, 0.85);
+                        backdrop-filter: blur(4px);
+                        -webkit-backdrop-filter: blur(4px);
+                        padding: 0.5rem;
+                        font-size: 0.8rem;
+                        font-weight: 600;
+                        text-align: center;
+                        color: var(--text-primary);
+                    }
+                    
+                    /* Simple tweak so it doesn't get too squished on tiny mobile screens */
+                    @media (max-width: 480px) {
+                        .hobbies-grid {
+                            grid-template-columns: repeat(2, 1fr); /* 2x3 on small phones */
+                        }
+                    }
+                </style>
+
+                <!-- Photo Matrix -->
+                <div class="hobbies-grid">
+                    <div class="hobby-card">
+                        <img src="file:///C:/Users/Sameah/Documents/ewb%20website/pics/coffee.jpg" alt="Coffee">
+                        <div class="label">Coffee Fuel ☕</div>
+                    </div>
+                    <div class="hobby-card">
+                        <img src="file:///C:/Users/Sameah/Documents/ewb%20website/pics/nature.jpg" alt="Nature">
+                        <div class="label">Nature 🌿</div>
+                    </div>
+                    <div class="hobby-card">
+                        <img src="file:///C:/Users/Sameah/Documents/ewb%20website/pics/walk.jpg" alt="Night Walk">
+                        <div class="label">Night Walks 🌙</div>
+                    </div>
+                    <div class="hobby-card">
+                        <img src="file:///C:/Users/Sameah/Documents/ewb%20website/pics/bad.jpg" alt="Badminton">
+                        <div class="label">Smash Mode 🏸</div>
+                    </div>
+                    <div class="hobby-card">
+                        <img src="file:///C:/Users/Sameah/Documents/ewb%20website/pics/kdramajpg.jpg" alt="K-Drama">
+                        <div class="label">K-Drama Binge 📺</div>
+                    </div>
+                    <div class="hobby-card">
+                        <img src="file:///C:/Users/Sameah/Documents/ewb%20website/pics/horror.jpg" alt="Horror Series">
+                        <div class="label">Horror Fan 🧟</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="gallery">
+                <h2>Visual Gallery</h2>
+                <p style="color: var(--text-secondary); font-style: italic; margin-bottom: 1rem;">
+                    "Stan BINI for clear skin." — Just a fun corner for my favorite inspirations, good vibes, and daily motivation.
+                </p>
+                
+                <div class="gallery-grid">
+                    <!-- Gallery Item 1 -->
+                    <div class="gallery-item">
+                        <img src="file:///C:/Users/Sameah/Documents/ewb%20website/pics/1.jpg" alt="BINI Aiah Inspiration 1">
+                        <div class="gallery-caption">Absolute visual serve 🤍</div>
+                    </div>
+                    
+                    <!-- Gallery Item 2 -->
+                    <div class="gallery-item">
+                        <img src="file:///C:/Users/Sameah/Documents/ewb%20website/pics/2.jpg" alt="BINI Aiah Inspiration 2">
+                        <div class="gallery-caption">Born to be on stage ✨</div>
+                    </div>
+                    
+                    <!-- Gallery Item 3 -->
+                    <div class="gallery-item">
+                        <img src="file:///C:/Users/Sameah/Documents/ewb%20website/pics/3.jpg" alt="BINI Aiah Inspiration 3">
+                        <div class="gallery-caption">Current mood: Dog person energy 🐶</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Mae Mercado. All Rights Reserved.
+    </footer>
+
+    <script>
+        function switchPage(pageNumber) {
+            const page1 = document.getElementById('page1');
+            const page2 = document.getElementById('page2');
+            const page3 = document.getElementById('page3');
+            
+            const btn1 = document.getElementById('btn-page1');
+            const btn2 = document.getElementById('btn-page2');
+            const btn3 = document.getElementById('btn-page3');
+            
+            const subtitle = document.getElementById('header-subtitle');
+
+            // Hide all pages first
+            page1.classList.remove('active-page');
+            page2.classList.remove('active-page');
+            page3.classList.remove('active-page');
+            
+            // Remove active status from all buttons
+            btn1.classList.remove('active');
+            btn2.classList.remove('active');
+            btn3.classList.remove('active');
+
+            if (pageNumber === 1) {
+                page1.classList.add('active-page');
+                btn1.classList.add('active');
+                subtitle.innerText = "BSIT Graduate & Technical Engineer";
+            } else if (pageNumber === 2) {
+                page2.classList.add('active-page');
+                btn2.classList.add('active');
+                subtitle.innerText = "Projects, Credentials & Portfolio";
+            } else if (pageNumber === 3) {
+                page3.classList.add('active-page');
+                btn3.classList.add('active');
+                subtitle.innerText = "Life Beyond Tech | Inspirations & Hobbies";
+            }
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+
+</body>
+</html>
